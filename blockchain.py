@@ -38,6 +38,7 @@ def print_blockchain_elements():
         print('Outputting Block')
         print(block)
 
+
 """ A core concept of the Blockchain technology is that individual Blocks should be connected. 
     Each Block knows the Block coming prior to itself. 
     So Block C knows Block B which in turn is aware of Block A.
@@ -61,20 +62,17 @@ def print_blockchain_elements():
     We'll add more security mechanisms in the future to ensure that this also doesn't work. 
     The relation between Blocks is a first important building block though. """
 def verify_chain():
-    block_index = 0
     is_valid = True
-    for block in blockchain:
-        print('Verifying Block: ', block)
-        print('blockchain: ', blockchain)
+    for block_index in range(len(blockchain)):
+        print('++ blockchain ++', blockchain)
+
         if block_index == 0:
-            block_index += 1
             continue
-        elif block[0] == blockchain[block_index - 1]:
+        elif blockchain[block_index][0] == blockchain[block_index - 1]:
             is_valid = True
         else:
             is_valid = False
             break
-        block_index += 1
     else:
         print('*' * 130)
 
