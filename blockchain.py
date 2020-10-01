@@ -1,5 +1,7 @@
+# Initializes genesis_block
+genesis_block = {'previous_hash': '', 'index': 0, 'transactions': []}
 # Initializes our blockchain list
-blockchain = []
+blockchain = [genesis_block]
 # Initializes list of open_transactions
 open_transactions = []
 # Initializes the 'owner' instance of current blockchain
@@ -26,16 +28,27 @@ def add_transaction(recipient, sender=owner, amount=1.0):
     open_transactions.append(transaction)
 
 
+def mine_block():
+    """ Adds a new block to our blockchain
+        We want to take all open transactions and include them in a new block
+    """
+    last_block = blockchain[-1]
+    print('** last_block: ', last_block)
+    hashed_block = ''
+    for key in last_block:
+        value = last_block[key]
+        hashed_block = hashed_block + str(value)
+
+    print('** hashed_block: ', hashed_block)
+    block = {'previous_hash': hashed_block, 'index': len(blockchain), 'transactions': open_transactions}
+    blockchain.append(block)
+
+
 def get_last_blockchain_value():
     """ Returns the last value of the current blockchain """
     if len(blockchain) < 1:
         return None
     return blockchain[-1]
-
-
-def mine_block():
-    """ Adds a new block to our blockchain """
-    pass
 
 
 def get_user_choice():
@@ -95,8 +108,8 @@ waiting_for_input = True
 while waiting_for_input:
     print('Please Choose')
     print('1: Add a new transaction value')
-    print('2: Output the blockchain blocks')
-    print('3: Quit current operation')
+    print('2: Mine a new block')
+    print('3: Output the blockchain blocks')
     print('4: Manipulate the blockchain')
     user_choice = get_user_choice()
 
@@ -107,18 +120,20 @@ while waiting_for_input:
         add_transaction(recipient, amount=amount)
         print('** open_transactions: ', open_transactions)
     elif user_choice == 2:
+        mine_block()
+    elif user_choice == 3:
         # Output the blockchain list to the console
         print_blockchain_elements()
-    elif user_choice == 3:
+    elif user_choice == 6:
         waiting_for_input = False
     elif user_choice == 4:
         if len(blockchain) > 1:
             blockchain[0] = [2.0]
     else:
         print('Input was invalid! Please output from the list')
-    if not verify_chain():
-        print('++ Invalid blockchain! ++')
-        break
+    # if not verify_chain():
+    #     print('++ Invalid blockchain! ++')
+    #     break
 else:
     print('User left the room!')
 
