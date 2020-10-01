@@ -34,11 +34,7 @@ def mine_block():
     """
     last_block = blockchain[-1]
     print('** last_block: ', last_block)
-    hashed_block = ''
-    for key in last_block:
-        value = last_block[key]
-        hashed_block = hashed_block + str(value)
-
+    hashed_block = '_'.join([str(last_block[key]) for key in last_block])
     print('** hashed_block: ', hashed_block)
     block = {'previous_hash': hashed_block, 'index': len(blockchain), 'transactions': open_transactions}
     blockchain.append(block)
@@ -111,6 +107,7 @@ while waiting_for_input:
     print('2: Mine a new block')
     print('3: Output the blockchain blocks')
     print('4: Manipulate the blockchain')
+    print('5: Quit operation')
     user_choice = get_user_choice()
 
     if user_choice == 1:
@@ -124,11 +121,11 @@ while waiting_for_input:
     elif user_choice == 3:
         # Output the blockchain list to the console
         print_blockchain_elements()
-    elif user_choice == 6:
-        waiting_for_input = False
     elif user_choice == 4:
         if len(blockchain) > 1:
             blockchain[0] = [2.0]
+    elif user_choice == 5:
+        waiting_for_input = False
     else:
         print('Input was invalid! Please output from the list')
     # if not verify_chain():
